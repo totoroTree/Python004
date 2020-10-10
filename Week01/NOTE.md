@@ -153,17 +153,6 @@ If the output are as followed, it means the crawl works fine
  'start_time': datetime.datetime(2020, 9, 27, 12, 12, 51, 360805)}
 2020-09-27 20:12:56 [scrapy.core.engine] INFO: Spider closed (finished)
 ```
-### XPath extract
-
-### Python yield推导式 -- 生成器函数
-1. 生成器定义
-    1. 生成器的本质是迭代器
-    2. 函数中包含yield，就是生成器函数
-2. 生成器好处
-    节约内存
-3. 生成器函数与普通函数的区别
-    1. 普通函数名()表示函数的的执行
-    2. 生成器函数名()不是函数的执行，而是生成一个生成器
 
 ## Trouble-shooting
 ### Scrapy

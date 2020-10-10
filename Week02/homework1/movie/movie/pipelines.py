@@ -7,9 +7,17 @@
 # useful for handling different item types with a single interface
 import pandas as pd
 
+
+class DbException( Exception ):
+    def __init__(self, error_info):
+        super().__init__( self, error_info )
+
+
 '''
 Write the crawler results into MySQL database
 '''
+
+
 class MoviePipeline2SQL:
     def __init__(self):
         self.conn = None
@@ -28,7 +36,7 @@ class MoviePipeline2SQL:
                 charset=settings['MYSQL_CHARSET']
             )
         except Exception as ex:
-            print(ex)
+            print( ex )
         self.conn = mysql_conn
         self.cursor = self.conn.cursor()
 
@@ -36,7 +44,7 @@ class MoviePipeline2SQL:
         name = item['name']
         category = item['category']
         release_time = item['release_time']
-        self.items.append({'name': name, 'category': category, 'release_time': release_time})
+        self.items.append( {'name': name, 'category': category, 'release_time': release_time} )
         return item
 
     def close_spider(self, spider):
@@ -47,15 +55,15 @@ class MoviePipeline2SQL:
         if self.items is not None:
             try:
                 # check whether the table exists before inserting anything
-                self.cursor.execut(create_table)
+                self.cursor.execut( create_table )
                 # insert the items into the table
-                self.cursor.execut(insert_items, self.items)
+                self.cursor.execut( insert_items, self.items )
                 self.conn.commit()
             except Exception as ex:
-                print(ex)
+                raise DbException( 'INSERT failed' )
             # close the db connection
             self.cursor.close()
             self.conn.close()
         else:
             # todo: customize exception
-            raise Exception('ERROR: MoviePipeline2SQL, no valid movie found')
+            raise DbException( 'ERROR: MoviePipeline2SQL, no valid movie found' )
