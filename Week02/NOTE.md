@@ -135,10 +135,13 @@ def get_total_balance(users):
 ```
 
 ## 2.2 使用PyMySQL进行数据库操作
+
 ### 安装MySQL以及MySQL Workbench
+
 ### 在Python中连接MySQL
+
 1. 安装PyMySQL
-2. 熟悉常见的数据库操作
+2. 熟悉常见的数据库操作例子
 ```
 # connect
 mysql_conn = pymysql.connect(host, port, user, passwd, db, charset)
