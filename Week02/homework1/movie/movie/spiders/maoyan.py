@@ -13,8 +13,11 @@ import scrapy
 from scrapy import Selector
 from movie.items import MovieItem
 
+class SpiderItemException(Exception):
+    def __init__(self, error_info):
+        super().__init__( self, error_info )
 
-class MaoyanSpider(scrapy.Spider):
+class MaoyanSpider( scrapy.Spider ):
     name = 'maoyan'
     allowed_domains = ['maoyan.com']
 
@@ -29,23 +32,21 @@ class MaoyanSpider(scrapy.Spider):
                  '__mta=250920249.1601173623167.1601208349439.1602308476579.11; ' \
                  '_csrf=3c0198e9cb7b8acf4b41b7463d84c18ab4888a39cff725de3d2dfe15e1409477; ' \
                  'Hm_lpvt_703e94591e87be68cc8da0da7cbd0be2=1602308468; _lxsdk_s=17511070d75-e2d-fa8-4f3%7C%7C2 '
-        yield scrapy.Request(url=url, cookies=cookie, callback=self.parse)
-
+        yield scrapy.Request( url=url, cookies=cookie, callback=self.parse )
 
     def parse(self, response):
         # print(response.text)
         counter = 0
         # read the movies' information from HTTP response field 'movie-hover-info'
-        candidates = Selector(response=response).xpath('//div[@class="movie-hover-info"]')
+        try:
+            candidates = Selector( response=response ).xpath( '//div[@class="movie-hover-info"]' )
+        except ValueError as ex:
+            raise SpiderItemException(ex)
         while counter <= 10:
             c_item = candidates[counter]
             item = MovieItem()
-            item['name'] = c_item.xpath('./div[1]/span/text()').extract()[0].strip()
-            item['category'] = (c_item.xpath('./div[2]/text()').extract()[1]).strip()
-            item['release_time'] = (c_item.xpath('./div[4]/text()').extract()[1]).strip()
-            # print('-------------------------------------------------------')
-            # print(item['name'])
-            # print(item['category'])
-            # print(item['release_time'])
+            item['name'] = c_item.xpath( './div[1]/span/text()' ).extract()[0].strip()
+            item['category'] = (c_item.xpath( './div[2]/text()' ).extract()[1]).strip()
+            item['release_time'] = (c_item.xpath( './div[4]/text()' ).extract()[1]).strip()
             counter += 1
             yield item
