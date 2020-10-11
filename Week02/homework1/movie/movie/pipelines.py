@@ -5,7 +5,8 @@
 
 
 # useful for handling different item types with a single interface
-import pandas as pd
+import pymysql
+from Week02.homework1.movie.movie import settings
 
 
 class DbException( Exception ):
@@ -16,8 +17,6 @@ class DbException( Exception ):
 '''
 Write the crawler results into MySQL database
 '''
-
-
 class MoviePipeline2SQL:
     def __init__(self):
         self.conn = None
@@ -44,7 +43,7 @@ class MoviePipeline2SQL:
         name = item['name']
         category = item['category']
         release_time = item['release_time']
-        self.items.append( {'name': name, 'category': category, 'release_time': release_time} )
+        self.items.append( (name, category, release_time) )
         return item
 
     def close_spider(self, spider):
