@@ -200,6 +200,10 @@ INSERT INTO cities(name, population) VALUES('Bratislava', 432000);
 **Http中如何通过form-data进行cookies登陆验证**
 ![avatar](D:\01_Projects\Github\Python-202009\week2/cookies_form_data.png)
 
+**requests库中session作用**
+requests库的session会话对象可以跨请求保持某些参数，说白了，就是比如你使用session成功的登录了某个网站，
+则在再次使用该session对象求求该网站的其他网页都会默认使用该session之前使用的cookie等参数。
+
 ## 2.5 使用WebDriver模拟浏览器行为
 **WebDriver**
 > WebDriver is a clean, fast framework for automated testing of webapps.

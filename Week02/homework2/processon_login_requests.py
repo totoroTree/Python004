@@ -3,7 +3,7 @@
  * (c) copyright  2020
  * Author: Alice Wang
 
-Simuate the process of logining Processon website (https://processon.com/login) based on request.
+Simulate the process of logging Processon website (https://processon.com/login) based on request.
 Note: there is no complex validation process for this website, so request would be enough.
 
 """
@@ -31,7 +31,7 @@ headers = {
 }
 # set the form data
 form_data = {
-    'login_email': 'felicity.uestc@gmail.com',
+    'login_email': 'tester@gmail.com',
     'login_password': '123',
 }
 s = requests.session()
